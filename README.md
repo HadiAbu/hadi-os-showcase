@@ -50,7 +50,7 @@ and `.kiro/specs/` for the phase-by-phase requirements/design/task history.
   dashboard, objectives/projects/journal CRUD, the graph, templated reflections) works.
 
 ```bash
-cp backend/.env.example backend/.env    # fill in TURSO_* (and LLM_API_KEY if you want AI features)
+cp backend/.env.example backend/.env    # fill in TURSO_*, set a real random JWT_SECRET_KEY (and LLM_API_KEY if you want AI features)
 cp frontend/.env.example frontend/.env
 docker compose up --build
 ```

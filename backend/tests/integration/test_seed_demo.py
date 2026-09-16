@@ -33,6 +33,23 @@ async def test_seed_demo_creates_full_demo_dataset(client: httpx.AsyncClient) ->
     assert reflections.status_code == 200
     assert len(reflections.json()) == 3
 
+    conversations = await client.get("/api/chat/conversations")
+    assert conversations.status_code == 200
+    conv_list = conversations.json()
+    assert len(conv_list) == 2
+
+    messages = await client.get(f"/api/chat/conversations/{conv_list[0]['id']}/messages")
+    assert messages.status_code == 200
+    msg_list = messages.json()
+    user_messages = [m for m in msg_list if m["role"] == "user"]
+    assert user_messages, "seeded conversation should include user turns"
+    assert all(m["text"] for m in user_messages), "user messages must have visible text"
+
+    usage = await client.get("/api/usage", params={"window": "all"})
+    assert usage.status_code == 200
+    usage_body = usage.json()
+    assert usage_body["tokens"]["total"] > 0, "seeded assistant messages should carry usage"
+
 
 async def test_seed_demo_is_idempotent(client: httpx.AsyncClient) -> None:
     await seed_demo.run()

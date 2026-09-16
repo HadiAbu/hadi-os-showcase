@@ -31,6 +31,7 @@ _USER_SCOPED_TABLES = [
     "projects",
     "context_entries",
     "onboarding_state",
+    "onboarding_responses",
     "style_samples",
     "style_guide",
     "focus_snapshots",
@@ -164,13 +165,19 @@ async def run() -> None:
             [cid, user_id, title, now, now, now],
         )
         for role, text in turns:
+            usage_json = (
+                json.dumps({"prompt_tokens": 180, "completion_tokens": 60, "total_tokens": 240})
+                if role == "assistant"
+                else None
+            )
             await client.db_execute(
                 "INSERT INTO messages (id, conversation_id, user_id, role, text, blocks_json, "
-                "model, usage_json, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, NULL, ?)",
+                "model, usage_json, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 [
-                    new_id(), cid, user_id, role, text if role == "assistant" else "",
+                    new_id(), cid, user_id, role, text,
                     json.dumps({"role": role, "content": text}),
                     "openai/gpt-oss-120b" if role == "assistant" else None,
+                    usage_json,
                     now,
                 ],
             )
@@ -246,7 +253,11 @@ async def run() -> None:
 
 
 def main() -> None:
-    asyncio.run(run())
+    async def _main() -> None:
+        await run()
+        await client.close_client()
+
+    asyncio.run(_main())
 
 
 if __name__ == "__main__":

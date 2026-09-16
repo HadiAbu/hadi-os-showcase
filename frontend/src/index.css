@@ -1,0 +1,129 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+/* ── hadi-os design tokens — Turso palette (see .kiro/steering/design.md) ──
+   Dark-only in Phase 2: no light theme, no theme toggle. */
+:root {
+  color-scheme: dark;
+
+  /* raw palette */
+  --bg: #0d1318;
+  --rail: #101820;
+  --surface: #162129;
+  --raised: #183134;
+  --void: #0a0f14;
+  --hairline: #293945;
+  --aqua: #4ff8d2;
+  --aqua-hi: #7ffce0;
+  --aqua-ink: #0d1318;
+  --text: #e8f0ef;
+  --text-muted: #8fa3a0;
+  --text-faint: #5c6e6c;
+  --warn: #f5b849;
+  --danger: #f87171;
+
+  /* graph node colours */
+  --node-obj: #4ff8d2;
+  --node-proj: #7cc7ff;
+  --node-ctx: #b7a5ff;
+  --node-act: #8fe9b0;
+  --node-conv: #5c6e6c;
+  --node-jrnl: #e0a3c7;
+
+  /* shadcn/ui token contract, mapped onto the palette */
+  --background: var(--bg);
+  --foreground: var(--text);
+  --card: var(--surface);
+  --card-foreground: var(--text);
+  --popover: var(--raised);
+  --popover-foreground: var(--text);
+  --primary: var(--aqua);
+  --primary-foreground: var(--aqua-ink);
+  --secondary: var(--raised);
+  --secondary-foreground: var(--text);
+  --muted: var(--surface);
+  --muted-foreground: var(--text-muted);
+  --accent: var(--raised);
+  --accent-foreground: var(--text);
+  --destructive: var(--danger);
+  --destructive-foreground: var(--text);
+  --border: var(--hairline);
+  --input: var(--hairline);
+  --ring: var(--aqua);
+  --radius: 0.75rem;
+}
+
+/* expose the tokens as Tailwind utilities: bg-surface, text-muted, border-hairline, text-aqua, … */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-bg: var(--bg);
+  --color-rail: var(--rail);
+  --color-surface: var(--surface);
+  --color-raised: var(--raised);
+  --color-void: var(--void);
+  --color-hairline: var(--hairline);
+  --color-aqua: var(--aqua);
+  --color-aqua-hi: var(--aqua-hi);
+  --color-ink: var(--aqua-ink);
+  --color-text: var(--text);
+  --color-muted-fg: var(--text-muted);
+  --color-faint: var(--text-faint);
+  --color-warn: var(--warn);
+  --color-node-obj: var(--node-obj);
+  --color-node-proj: var(--node-proj);
+  --color-node-ctx: var(--node-ctx);
+  --color-node-act: var(--node-act);
+  --color-node-jrnl: var(--node-jrnl);
+  --color-node-conv: var(--node-conv);
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  --font-sans: 'Hanken Grotesk', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  /* the modern reset drops this — restore the hand cursor on interactive elements */
+  button:not(:disabled),
+  [role='button']:not([aria-disabled='true']),
+  summary,
+  label:has(> input[type='checkbox']),
+  label:has(> input[type='radio']) {
+    cursor: pointer;
+  }
+  .mono {
+    font-family: var(--font-mono);
+    font-feature-settings: 'tnum';
+  }
+}

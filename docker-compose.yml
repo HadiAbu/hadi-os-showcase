@@ -1,0 +1,38 @@
+# Local dev stack. nginx is the only published port (8080); api/web are internal
+# so the rate limiter cannot be bypassed. Points at a real Turso DB even in dev
+# (no local database container) — same pattern as the sibling projects.
+#
+# First run:
+#   cp backend/.env.example backend/.env   # fill in TURSO_* and JWT_SECRET_KEY
+#   cp frontend/.env.example frontend/.env
+#   docker compose up --build
+
+services:
+  api:
+    build: ./backend
+    env_file: ./backend/.env
+    expose:
+      - "8000"
+    restart: unless-stopped
+
+  web:
+    build: ./frontend
+    env_file: ./frontend/.env
+    expose:
+      - "5173"
+    volumes:
+      - ./frontend/src:/app/src
+      - ./frontend/public:/app/public
+      - ./frontend/index.html:/app/index.html
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:1.27-alpine
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "8080:8080"
+    depends_on:
+      - api
+      - web
+    restart: unless-stopped

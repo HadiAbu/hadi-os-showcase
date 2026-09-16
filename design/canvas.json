@@ -1,0 +1,12 @@
+{
+  "artboards": [
+    { "file": "Main.dc.html", "title": "Dashboard", "x": 0, "y": 0, "w": 1440, "h": 1240 },
+    { "file": "Chat.dc.html", "x": 1560, "y": 0, "w": 1440, "h": 900 },
+    { "file": "Context.dc.html", "x": 0, "y": 1400, "w": 1440, "h": 900 },
+    { "file": "Objectives.dc.html", "x": 1560, "y": 1400, "w": 1440, "h": 900 }
+  ],
+  "annotations": [
+    { "id": "brief", "x": 0, "y": -150, "w": 460, "text": "hadi-os redesign v1 — Turso palette: aqua #4FF8D2 on Bunker #0D1318 / Mirage #162129 surfaces. Hanken Grotesk + JetBrains Mono for numbers.\nOpen question: the knowledge graph as a full-width banner (shown) vs. a tall graph-forward panel. Say which and I'll build the rest to match." }
+  ],
+  "launch": { "view": "canvas" }
+}
